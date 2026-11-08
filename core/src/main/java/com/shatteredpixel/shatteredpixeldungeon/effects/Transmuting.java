@@ -51,9 +51,6 @@ public class Transmuting extends Component {
 	private float duration;
 	private float passed;
 
-	private float oldBaseScale = 1f;
-	private float newBaseScale = 1f;
-
 	public Transmuting( Item oldItem, Item newItem ){
 		oldSprite = new ItemSprite(oldItem);
 		oldSprite.originToCenter();
@@ -64,9 +61,6 @@ public class Transmuting extends Component {
 
 		oldSprite.alpha(0f);
 		newSprite.alpha(0f);
-		//high resolution icons have a smaller base scale, see HDIcons
-		oldBaseScale = oldSprite.scale.x;
-		newBaseScale = newSprite.scale.x;
 
 		phase = Phase.FADE_IN;
 		duration = FADE_IN_TIME;
@@ -83,9 +77,6 @@ public class Transmuting extends Component {
 
 		oldSprite.alpha(0f);
 		newSprite.alpha(0f);
-		//high resolution icons have a smaller base scale, see HDIcons
-		oldBaseScale = oldSprite.scale.x;
-		newBaseScale = newSprite.scale.x;
 
 		phase = Phase.FADE_IN;
 		duration = FADE_IN_TIME;
@@ -107,7 +98,7 @@ public class Transmuting extends Component {
 		switch (phase) {
 			case FADE_IN:
 				oldSprite.alpha( passed / duration * ALPHA );
-				oldSprite.scale.set( oldBaseScale * passed / duration );
+				oldSprite.scale.set( passed / duration );
 				break;
 			case TRANSMUTING:
 				oldSprite.alpha((TRANSMUTING_TIME - passed)  / duration * ALPHA);
@@ -115,7 +106,7 @@ public class Transmuting extends Component {
 				break;
 			case FADE_OUT:
 				newSprite.alpha( (1 - passed / duration) * ALPHA );
-				newSprite.scale.set( newBaseScale * (1 + passed / duration) );
+				newSprite.scale.set( 1 + passed / duration );
 				break;
 		}
 

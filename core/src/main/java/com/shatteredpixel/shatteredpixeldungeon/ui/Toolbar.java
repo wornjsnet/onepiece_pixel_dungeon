@@ -872,8 +872,7 @@ public class Toolbar extends Component {
 				}
 				if (items[i] != null){
 					icons[i] = new ItemSprite(items[i]);
-					//relative to the sprite's own scale, which is smaller for high resolution icons
-					icons[i].scale.set(PixelScene.align(icons[i].scale.x * 0.45f));
+					icons[i].scale.set(PixelScene.align(0.45f));
 					if (Dungeon.quickslot.isPlaceholder(slot)) icons[i].alpha(0.29f);
 					add(icons[i]);
 				}
