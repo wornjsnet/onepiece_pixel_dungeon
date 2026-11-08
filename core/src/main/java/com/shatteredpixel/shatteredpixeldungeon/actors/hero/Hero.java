@@ -127,6 +127,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEvasion;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RubberFist;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -262,6 +263,8 @@ public class Hero extends Char {
 		
 		HT = 20 + 5*(lvl-1) + HTBoost;
 		float multiplier = RingOfMight.HTMultiplier(this);
+		//Luffy: captain's toughness
+		multiplier *= 1f + 0.05f * pointsInTalent(Talent.CAPTAINS_TOUGHNESS);
 		HT = Math.round(multiplier * HT);
 		
 		if (buff(ElixirOfMight.HTBoost.class) != null){
@@ -391,6 +394,10 @@ public class Hero extends Char {
 	}
 
 	public int talentPointsAvailable(int tier){
+		//tiers without any talents (e.g. ones not implemented yet) never hold points
+		if (tier-1 < talents.size() && talents.get(tier-1).isEmpty()){
+			return 0;
+		}
 		if (lvl < (Talent.tierLevelThresholds[tier] - 1)
 			|| (tier == 3 && subClass == HeroSubClass.NONE)
 			|| (tier == 4 && armorAbility == null)) {
@@ -661,6 +668,9 @@ public class Hero extends Char {
 		if (buff(HoldFast.class) != null){
 			dr += buff(HoldFast.class).armorBonus();
 		}
+
+		//Luffy: captain's grit
+		dr += pointsInTalent(Talent.CAPTAINS_GRIT);
 		
 		return dr;
 	}
@@ -673,7 +683,8 @@ public class Hero extends Char {
 		if (!RingOfForce.fightingUnarmed(this)) {
 			dmg = wep.damageRoll( this );
 
-			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
+			//the rubber fist applies the ring of force to its own level instead
+			if (!(wep instanceof MissileWeapon) && !(wep instanceof RubberFist)) dmg += RingOfForce.armedDamageBonus(this);
 		} else {
 			dmg = RingOfForce.damageRoll(this);
 			if (RingOfForce.unarmedGetsWeaponAugment(this)){

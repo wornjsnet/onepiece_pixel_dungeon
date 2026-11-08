@@ -118,6 +118,10 @@ abstract public class ClassArmor extends Armor {
 			case CLERIC:
 				classArmor = new ClericArmor();
 				break;
+			case LUFFY:
+				//TODO Luffy's crown ability becomes Gear 5 (Nika) in a later phase
+				classArmor = new WarriorArmor();
+				break;
 		}
 		
 		classArmor.level(armor.trueLevel());

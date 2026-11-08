@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.luffy.Luffy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
@@ -802,6 +803,7 @@ public class Badges {
 	private static LinkedHashMap<HeroClass, Badge> firstBossClassBadges = new LinkedHashMap<>();
 	static {
 		firstBossClassBadges.put(HeroClass.WARRIOR, Badge.BOSS_SLAIN_1_WARRIOR);
+		firstBossClassBadges.put(HeroClass.LUFFY, Badge.BOSS_SLAIN_1_WARRIOR);
 		firstBossClassBadges.put(HeroClass.MAGE, Badge.BOSS_SLAIN_1_MAGE);
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
@@ -812,6 +814,7 @@ public class Badges {
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
 	static {
 		victoryClassBadges.put(HeroClass.WARRIOR, Badge.VICTORY_WARRIOR);
+		victoryClassBadges.put(HeroClass.LUFFY, Badge.VICTORY_WARRIOR);
 		victoryClassBadges.put(HeroClass.MAGE, Badge.VICTORY_MAGE);
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
@@ -851,6 +854,9 @@ public class Badges {
 			badge = Badge.BOSS_SLAIN_4;
 			break;
 		}
+
+		//One Piece Pixel Dungeon: Luffy grows stronger with every boss slain
+		Luffy.onBossSlain(Dungeon.depth / 5);
 		
 		if (badge != null) {
 			local.add( badge );
@@ -937,7 +943,7 @@ public class Badges {
 		
 		Badge badge = null;
 		switch (Dungeon.hero.heroClass) {
-			case WARRIOR:
+			case WARRIOR: case LUFFY:
 				badge = Badge.MASTERY_WARRIOR;
 				break;
 			case MAGE:
@@ -1354,7 +1360,7 @@ public class Badges {
 		String result = "\n";
 
 		if (badge == Badge.BOSS_SLAIN_1_ALL_CLASSES){
-			for (HeroClass cls : HeroClass.values()){
+			for (HeroClass cls : HeroClass.selectable()){
 				result += "\n";
 				if (isUnlocked(firstBossClassBadges.get(cls)))  result += "_" + Messages.titleCase(cls.title()) + "_";
 				else                                            result += Messages.titleCase(cls.title());
@@ -1364,7 +1370,7 @@ public class Badges {
 
 		} else if (badge == Badge.VICTORY_ALL_CLASSES) {
 
-			for (HeroClass cls : HeroClass.values()){
+			for (HeroClass cls : HeroClass.selectable()){
 				result += "\n";
 				if (isUnlocked(victoryClassBadges.get(cls)))    result += "_" + Messages.titleCase(cls.title()) + "_";
 				else                                            result += Messages.titleCase(cls.title());

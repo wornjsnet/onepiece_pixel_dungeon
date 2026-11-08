@@ -197,6 +197,9 @@ public enum Talent {
 	//Power of Many T4
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
+	//Luffy T1 (icons are placeholders until Luffy's talent art exists)
+	BIG_EATER(0), PIRATES_SENSES(1), CAPTAINS_GRIT(3), CAPTAINS_TOUGHNESS(4),
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -495,6 +498,20 @@ public enum Talent {
 	}
 
 	public static void onTalentUpgraded( Hero hero, Talent talent ){
+		if (talent == CAPTAINS_TOUGHNESS){
+			hero.updateHT(true);
+		}
+		if (talent == PIRATES_SENSES && !ShardOfOblivion.passiveIDDisabled()){
+			int points = hero.pointsInTalent(PIRATES_SENSES);
+			for (Item item : hero.belongings){
+				if (item instanceof Weapon || item instanceof Armor || (points == 2 && item instanceof Ring)){
+					if (points == 2 || item.isEquipped(hero)) {
+						item.identify();
+					}
+				}
+			}
+		}
+
 		//for metamorphosis
 		if (talent == IRON_WILL && hero.heroClass != HeroClass.WARRIOR){
 			Buff.affect(hero, BrokenSeal.WarriorShield.class);
@@ -585,6 +602,15 @@ public enum Talent {
 	public static class NatureBerriesDropped extends CounterBuff{{revivePersists = true;}};
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
+		if (hero.hasTalent(BIG_EATER)){
+			//5% / 10% of max HP
+			int healing = Math.max(1, Math.round(hero.HT * 0.05f * hero.pointsInTalent(BIG_EATER)));
+			healing = Math.min(healing, hero.HT - hero.HP);
+			if (healing > 0) {
+				hero.HP += healing;
+				hero.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healing), FloatingText.HEALING);
+			}
+		}
 		if (hero.hasTalent(HEARTY_MEAL)){
 			//4/6 HP healed, when hero is below 33% health (with a little rounding up)
 			if (hero.HP/(float)hero.HT < 0.334f) {
@@ -831,6 +857,10 @@ public enum Talent {
 
 	public static void onItemEquipped( Hero hero, Item item ){
 		boolean identify = false;
+		if (hero.hasTalent(PIRATES_SENSES) && (item instanceof Weapon || item instanceof Armor
+				|| (hero.pointsInTalent(PIRATES_SENSES) == 2 && item instanceof Ring))){
+			identify = true;
+		}
 		if (hero.pointsInTalent(VETERANS_INTUITION) == 2 && item instanceof Armor){
 			identify = true;
 		}
@@ -860,6 +890,16 @@ public enum Talent {
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
+		if (hero.pointsInTalent(PIRATES_SENSES) == 2
+				&& (item instanceof Weapon || item instanceof Armor || item instanceof Ring)){
+			if (ShardOfOblivion.passiveIDDisabled()) {
+				if (item instanceof Weapon)     ((Weapon) item).setIDReady();
+				else if (item instanceof Armor) ((Armor) item).setIDReady();
+				else                            ((Ring) item).setIDReady();
+			} else if (!item.isIdentified()) {
+				item.identify();
+			}
+		}
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
@@ -994,6 +1034,9 @@ public enum Talent {
 			case CLERIC:
 				Collections.addAll(tierTalents, SATIATED_SPELLS, HOLY_INTUITION, SEARING_LIGHT, SHIELD_OF_LIGHT);
 				break;
+			case LUFFY:
+				Collections.addAll(tierTalents, BIG_EATER, PIRATES_SENSES, CAPTAINS_GRIT, CAPTAINS_TOUGHNESS);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1023,6 +1066,9 @@ public enum Talent {
 			case CLERIC:
 				Collections.addAll(tierTalents, ENLIGHTENING_MEAL, RECALL_INSCRIPTION, SUNRAY, DIVINE_SENSE, BLESS);
 				break;
+			case LUFFY:
+				//TODO Luffy T2 talents (Gear 2 techniques) come in a later phase
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -1051,6 +1097,9 @@ public enum Talent {
 				break;
 			case CLERIC:
 				Collections.addAll(tierTalents, CLEANSE, LIGHT_READING);
+				break;
+			case LUFFY:
+				//TODO Luffy T3 talents (Gear 3 & haki) come in a later phase
 				break;
 		}
 		for (Talent talent : tierTalents){

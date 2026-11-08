@@ -78,6 +78,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.luffy.Luffy;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
@@ -89,7 +90,14 @@ public enum HeroClass {
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN ),
 	DUELIST( HeroSubClass.CHAMPION, HeroSubClass.MONK ),
-	CLERIC( HeroSubClass.PRIEST, HeroSubClass.PALADIN );
+	CLERIC( HeroSubClass.PRIEST, HeroSubClass.PALADIN ),
+	//One Piece Pixel Dungeon: Luffy takes the Warrior's place on the hero select screen
+	LUFFY();
+
+	//the classes shown on the hero select screen, in order
+	public static HeroClass[] selectable(){
+		return new HeroClass[]{LUFFY, MAGE, ROGUE, HUNTRESS, DUELIST, CLERIC};
+	}
 
 	private HeroSubClass[] subClasses;
 
@@ -140,6 +148,10 @@ public enum HeroClass {
 			case CLERIC:
 				initCleric( hero );
 				break;
+
+			case LUFFY:
+				Luffy.initHero( hero );
+				break;
 		}
 
 		if (SPDSettings.quickslotWaterskin()) {
@@ -155,7 +167,7 @@ public enum HeroClass {
 
 	public Badges.Badge masteryBadge() {
 		switch (this) {
-			case WARRIOR:
+			case WARRIOR: case LUFFY:
 				return Badges.Badge.MASTERY_WARRIOR;
 			case MAGE:
 				return Badges.Badge.MASTERY_MAGE;
@@ -290,6 +302,9 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case CLERIC:
 				return new ArmorAbility[]{new AscendedForm(), new Trinity(), new PowerOfMany()};
+			case LUFFY:
+				//TODO replaced by Gear 5 (Nika) in a later phase
+				return new ArmorAbility[]{new HeroicLeap(), new Shockwave(), new Endure()};
 		}
 	}
 
@@ -307,6 +322,8 @@ public enum HeroClass {
 				return Assets.Sprites.DUELIST;
 			case CLERIC:
 				return Assets.Sprites.CLERIC;
+			case LUFFY:
+				return Assets.Sprites.LUFFY;
 		}
 	}
 
@@ -324,6 +341,8 @@ public enum HeroClass {
 				return Assets.Splashes.DUELIST;
 			case CLERIC:
 				return Assets.Splashes.CLERIC;
+			case LUFFY:
+				return Assets.Splashes.LUFFY;
 		}
 	}
 	
@@ -332,7 +351,7 @@ public enum HeroClass {
 		if (DeviceCompat.isDebug()) return true;
 
 		switch (this){
-			case WARRIOR: default:
+			case WARRIOR: case LUFFY: default:
 				return true;
 			case MAGE:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGE);
