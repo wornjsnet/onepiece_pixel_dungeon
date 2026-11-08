@@ -30,7 +30,8 @@ public class NewsImpl {
 	}
 
 	public static boolean supportsNews(){
-		return true;
+		//One Piece Pixel Dungeon: the news feed belongs to the original game, so it is disabled
+		return false;
 	}
 
 }

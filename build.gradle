@@ -11,8 +11,11 @@ buildscript {
 allprojects {
 
     ext {
-        appName = 'Shattered Pixel Dungeon'
-        appPackageName = 'com.shatteredpixel.shatteredpixeldungeon'
+        appName = 'One Piece Pixel Dungeon'
+        //app/bundle identifier, distinct from the original so both can be installed side by side
+        appPackageName = 'com.wornjsnet.onepiecepixeldungeon'
+        //java package of the source code (kept from Shattered Pixel Dungeon)
+        appJavaPackageName = 'com.shatteredpixel.shatteredpixeldungeon'
 
         //Full releases gets +2 on version code, needed for an F-Droid quirk
         appVersionCode = 922

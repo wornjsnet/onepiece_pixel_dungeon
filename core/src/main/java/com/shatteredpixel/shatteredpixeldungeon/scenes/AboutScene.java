@@ -64,6 +64,22 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		//*** One Piece Pixel Dungeon Credits ***
+
+		final int OPPD_COLOR = 0xFFCC33;
+		CreditsBlock oppd = new CreditsBlock(true, OPPD_COLOR,
+				"One Piece Pixel Dungeon",
+				null,
+				"A fan-made mod of Shattered Pixel Dungeon\nInspired by Eiichiro Oda's One Piece",
+				"github.com/wornjsnet/...",
+				"https://github.com/wornjsnet/onepiece_pixel_dungeon");
+		oppd.setRect((w - fullWidth)/2f, insets.top + 6, fullWidth, 0);
+		content.add(oppd);
+
+		addLine(oppd.bottom() + 4, content);
+
+		final float topOffset = oppd.bottom() + 8 - insets.top;
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -73,9 +89,9 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 26, 120, 0);
+			shpx.setRect((w - fullWidth)/2f - 6, insets.top + topOffset + 20, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect((w - fullWidth)/2f, insets.top + topOffset, 120, 0);
 		}
 		content.add(shpx);
 
@@ -87,7 +103,7 @@ public class AboutScene extends PixelScene {
 				"https://www.alekskomitov.com/");
 		aleks.setSize(colWidth/2f, 0);
 		if (landscape()){
-			aleks.setPos(shpx.right(), insets.top+6);
+			aleks.setPos(shpx.right(), insets.top + topOffset);
 		} else {
 			aleks.setPos(w/2f - colWidth/2f, shpx.bottom()+6);
 		}
