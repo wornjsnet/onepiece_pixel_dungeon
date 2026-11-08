@@ -157,128 +157,132 @@ def hero_sheet():
 
 
 # ---------------------------------------------------------------- item icon
+# Drawn like the original item icons: translucent black outline ('A'),
+# four or five tones per material, light from the top-left.
+ICON_PAL = {
+    'A': (0, 0, 0, 102),
+    'S': (255, 224, 200, 255), 's': (238, 194, 160, 255), 'k': (204, 156, 122, 255),
+    'd': (160, 112, 82, 255), 'D': (120, 78, 54, 255),
+}
 RUBBER_FIST = [
-    "................",
-    "................",
-    "................",
-    "....okkkkkko....",
-    "...kSSkSSkSSk...",
-    "..kSSSkSSkSSsk..",
-    "..kSSSkSSkSSsk..",
-    "..ksSSSSSSSSsk..",
-    "..kSkkkkkkSssk..",
-    "..ksSSSSSSssk...",
-    "...ksssssssk....",
-    "....ksssssk.....",
-    "....ksssssk.....",
-    "....kkkkkkk.....",
-    "................",
-    "................",
+    "...AAAAAAAA..",
+    "..ASSkSSkSSA.",
+    ".ASSSkSSkSSsA",
+    "ASSSskSskSssA",
+    "AsSsssssssskA",
+    "AsssssssssskA",
+    "AkSSSSSSSsskA",
+    "AksssssssskdA",
+    ".AkkkkkkkkdA.",
+    "..AkssssskA..",
+    "..AksssskdA..",
+    "..AkkkkkddA..",
+    "..AAAAAAAAA..",
 ]
 ITEM_SLOT = 12 * 16 + 0  # xy(1, 13)
 
 
-ITEM_OUTLINE = (0, 0, 0)
-
-
 def item_icon():
-    """Draws the fist with a dark outline (like other item icons), packed into the
-    top-left of its slot. Returns its size, used by ItemSpriteSheet.assignItemRect."""
-    icon = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
-    for y, line in enumerate(RUBBER_FIST):
-        for x, ch in enumerate(line):
-            if ch != '.':
-                icon.putpixel((x, y), P[ch] + (255,))
-    filled = {(x, y) for x in range(16) for y in range(16) if icon.getpixel((x, y))[3]}
-    for (x, y) in list(filled):
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            n = (x + dx, y + dy)
-            if 0 <= n[0] < 16 and 0 <= n[1] < 16 and n not in filled:
-                icon.putpixel(n, ITEM_OUTLINE + (255,))
-    icon = icon.crop(icon.getbbox())
-
+    """Packed into the top-left of its slot like the original sheet.
+    Returns its size, used by ItemSpriteSheet.assignItemRect."""
     path = os.path.join(ROOT, 'sprites', 'items.png')
     sheet = Image.open(path).convert('RGBA')
     ox, oy = (ITEM_SLOT % 16) * 16, (ITEM_SLOT // 16) * 16
     sheet.paste(Image.new('RGBA', (16, 16), (0, 0, 0, 0)), (ox, oy))
-    sheet.alpha_composite(icon, (ox, oy))
+    for y, line in enumerate(RUBBER_FIST):
+        for x, ch in enumerate(line):
+            if ch != '.':
+                sheet.putpixel((ox + x, oy + y), ICON_PAL[ch])
     sheet.save(path)
-    return icon.size
+    return len(RUBBER_FIST[0]), len(RUBBER_FIST)
 
 
 # ---------------------------------------------------------------- talent icons
+# Flat style like the original talent icons: a solid colored tile (corners
+# transparent), a few bold colors and 1px black outlines.
+#   green tile = food talents, blue = identification, white = combat/defense
+TALENT_PAL = {
+    'g': (0, 179, 0), 'b': (0, 160, 255), 'w': (255, 255, 255),
+    'E': (0, 0, 0),
+    'B': (242, 228, 218), 'C': (179, 168, 161),            # bone
+    'K': (224, 73, 73), 'L': (240, 160, 150), 'N': (165, 40, 40),  # meat / red
+    'Y': (255, 220, 60), 'O': (214, 150, 0), 'T': (128, 81, 35),   # brass / wood
+    'G': (200, 240, 255),                                   # lens
+    'R': (230, 30, 30), 'r': (160, 10, 20),                # vest / heart
+    'H': (255, 230, 120), 'h': (220, 170, 60),             # straw
+}
 TALENTS = {
     192: [  # big eater: meat on the bone
-        "................",
-        ".........MMMM...",
-        ".......MMMMMMMm.",
-        "......MMnMMMMMm.",
-        ".....MMnMMMMMmm.",
-        ".....MnMMMMMmm..",
-        ".....MMMMMMmm...",
-        "....WmMMMmmm....",
-        "...WWwmmmm......",
-        "..WWw...........",
-        ".WWw............",
-        "WWw.............",
-        "Ww..............",
-        "Ww..............",
-        ".w..............",
-        "................",
+        ".gggggggggggggg.",
+        "ggggggggggggEEgg",
+        "gggggEEEEEEEBBEg",
+        "ggggEKKKKKKEBCEg",
+        "gggEKLLKKKKKEEgg",
+        "ggEKLKKKKKKKNEgg",
+        "ggEKKKKKKKKKNEgg",
+        "ggEKKKKKKKKNNEgg",
+        "ggEKKKKKKKNNEggg",
+        "ggEEKKKKNNNEEggg",
+        "gEBEENNNNEEggggg",
+        "EBBBEEEEEggggggg",
+        "EBCBEggggggggggg",
+        "gEEBCEgggggggggg",
+        "ggEBCEgggggggggg",
+        ".ggEEgggggggggg.",
     ],
     193: [  # pirate's senses: spyglass
-        "................",
-        "................",
-        "...........gww..",
-        "..........gWWWw.",
-        ".........GOWWWw.",
-        "........GOOgww..",
-        ".......FFOO.....",
-        "......FFFf......",
-        ".....FFFf.......",
-        "....FFFf........",
-        "...GFFf.........",
-        "..GOff..........",
-        ".GOf............",
-        ".Of.............",
-        "................",
-        "................",
+        ".bbbbbbbbbbbbbb.",
+        "bbbbbbbbbbbEEEbb",
+        "bbbbbbbbbbEGGGEb",
+        "bbbbbbbbbEYGGGEb",
+        "bbbbbbbbEYYEGEbb",
+        "bbbbbbbEYYOOEbbb",
+        "bbbbbbEYYOEEbbbb",
+        "bbbbbEEOOEbbbbbb",
+        "bbbbEYEEEbbbbbbb",
+        "bbbEYYOEbbbbbbbb",
+        "bbETTOEbbbbbbbbb",
+        "bETTTEbbbbbbbbbb",
+        "ETTTEbbbbbbbbbbb",
+        "ETTEbbbbbbbbbbbb",
+        "bEEbbbbbbbbbbbbb",
+        ".bbbbbbbbbbbbbb.",
     ],
     194: [  # captain's grit: Luffy's open red vest
-        "................",
-        "................",
-        "....vVV..VVv....",
-        "...vVVVS.SVVVv..",
-        "..vVVVVSSSVVVVv.",
-        "..vVVVVsSSVVVVv.",
-        "..vVvVVSSsVVvVv.",
-        "...vvVVsSSVVvv..",
-        "....vVVSSsVVv...",
-        "....vVVsSSVVv...",
-        "....vVVSSsVVv...",
-        "....vVVsSSVVv...",
-        "....vvvSSsvvv...",
-        "................",
-        "................",
-        "................",
+        ".wwwwwwwwwwwwww.",
+        "wwwwwwwwwwwwwwww",
+        "wwwwEEEwwEEEwwww",
+        "wwwERRREwERRREww",
+        "wwERRRREwERRRREw",
+        "wERRRRRREERRRRRE",
+        "wERRERRYEERRERRE",
+        "wEEEERRREERRREEE",
+        "wwwwERRYEERRREww",
+        "wwwwERRREERRREww",
+        "wwwwERRYEERRREww",
+        "wwwwERRREERRREww",
+        "wwwwErrrEErrrEww",
+        "wwwwEEEEwwEEEEww",
+        "wwwwwwwwwwwwwwww",
+        ".wwwwwwwwwwwwww.",
     ],
-    195: [  # captain's toughness: straw hat over a heart
-        "................",
-        "......yYYy......",
-        ".....dyyyyd.....",
-        ".....rRRRRr.....",
-        "...Ddyyyyyydd...",
-        "....DDddddDD....",
-        "..MMM.....MMM...",
-        ".MnMMM...MMMMm..",
-        ".MnMMMM.MMMMMm..",
-        ".MMMMMMMMMMMMm..",
-        "..MMMMMMMMMMm...",
-        "...MMMMMMMMm....",
-        "....MMMMMMm.....",
-        ".....MMMMm......",
-        "......MMm.......",
-        ".......m........",
+    195: [  # captain's toughness: straw hat on a heart
+        ".wwwwwwwwwwwwww.",
+        "wwwwwwEEEEwwwwww",
+        "wwwwwEHHHHEwwwww",
+        "wwwwwEHHHhEwwwww",
+        "wwwwwERRRREwwwww",
+        "wwwEEEhhhhEEEwww",
+        "wwEHHHHHHHHHhEww",
+        "wwwEEERRRREEEwww",
+        "wwERREKKKKERRRww",
+        "wERLRRRRRRRRRREw",
+        "wERRRRRRRRRRRrEw",
+        "wwERRRRRRRRRrEww",
+        "wwwERRRRRRRrEwww",
+        "wwwwERRRRRrEwwww",
+        "wwwwwERRRrEwwwww",
+        ".wwwwwEEEEwwwww.",
     ],
 }
 
@@ -287,15 +291,15 @@ def talent_icons():
     path = os.path.join(ROOT, 'interfaces', 'talent_icons.png')
     sheet = Image.open(path).convert('RGBA')
     per_row = sheet.width // 16
-    pal = dict(P, V=ARMOR[0][0], v=ARMOR[0][1])
     for slot, art in TALENTS.items():
+        assert len(art) == 16, slot
         ox, oy = (slot % per_row) * 16, (slot // per_row) * 16
         sheet.paste(Image.new('RGBA', (16, 16), (0, 0, 0, 0)), (ox, oy))
         for y, line in enumerate(art):
-            assert len(line) == 16, (slot, y)
+            assert len(line) == 16, (slot, y, line)
             for x, ch in enumerate(line):
                 if ch != '.':
-                    sheet.putpixel((ox + x, oy + y), pal[ch] + (255,))
+                    sheet.putpixel((ox + x, oy + y), TALENT_PAL[ch] + (255,))
     sheet.save(path)
 
 

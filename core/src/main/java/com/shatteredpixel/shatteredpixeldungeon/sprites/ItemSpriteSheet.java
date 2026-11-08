@@ -399,7 +399,7 @@ public class ItemSpriteSheet {
 	private static final int LUFFY_ITEMS    =                               xy(1, 13);  //16 slots
 	public static final int RUBBER_FIST     = LUFFY_ITEMS+0;
 	static{
-		assignItemRect(RUBBER_FIST,     14, 13);
+		assignItemRect(RUBBER_FIST,     13, 13);
 	}
 
 	private static final int WANDS              =                           xy(1, 14);  //16 slots
