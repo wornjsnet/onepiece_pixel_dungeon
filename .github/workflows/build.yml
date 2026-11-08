@@ -1,10 +1,8 @@
 name: Test Build
 
-# Builds a desktop JAR and an Android debug APK on every push,
-# so each commit can be downloaded and tested from the Actions tab.
+# Builds a desktop JAR and an Android debug APK.
+# Manual only: run it from the Actions tab with "Run workflow" when needed.
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
