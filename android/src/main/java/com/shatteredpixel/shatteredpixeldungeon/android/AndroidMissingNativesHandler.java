@@ -67,7 +67,7 @@ public class AndroidMissingNativesHandler extends Activity {
 
 		TextView text = new TextView(this);
 		String message = "One Piece Pixel Dungeon failed to access some of its internal code and cannot start!\n\n" +
-				"Try downloading the game from an official source if you haven't already. You can also screenshot this debug info and report it at github.com/wornjsnet/onepiece_pixel_dungeon/issues:";
+				"Try downloading the game from an official source if you haven't already. You can also screenshot this debug info and report it to the developer (jack1) on the game's GitHub page:";
 
 		message += "\n\nPackage: " + getPackageName();
 		message += "\nVersion: " + versionName + " (" + versionCode + ")";

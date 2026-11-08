@@ -99,14 +99,14 @@ public class DesktopLauncher {
 					TinyFileDialogs.tinyfd_messageBox(title + " Has Crashed!",
 							title + " was not able to initialize its graphics display, sorry about that!\n\n" +
 									"This usually happens when your graphics card has misconfigured drivers or does not support openGL 2.0+.\n\n" +
-									"If you are certain the game should work on your computer, please report it at github.com/wornjsnet/onepiece_pixel_dungeon/issues\n\n" +
+									"If you are certain the game should work on your computer, please report it to the developer (jack1) on the game's GitHub page\n\n" +
 									"version: " + Game.version + "\n" +
 									exceptionMsg,
 							"ok", "error", false);
 				} else {
 					TinyFileDialogs.tinyfd_messageBox(title + " Has Crashed!",
 							title + " has run into an error it cannot recover from and has crashed, sorry about that!\n\n" +
-									"If you could, please report this error message at github.com/wornjsnet/onepiece_pixel_dungeon/issues:\n\n" +
+									"If you could, please report this error message to the developer (jack1) on the game's GitHub page:\n\n" +
 									"version: " + Game.version + "\n" +
 									exceptionMsg,
 							"ok", "error", false);

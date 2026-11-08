@@ -70,8 +70,8 @@ public class AboutScene extends PixelScene {
 		CreditsBlock oppd = new CreditsBlock(true, OPPD_COLOR,
 				"One Piece Pixel Dungeon",
 				null,
-				"A fan-made mod of Shattered Pixel Dungeon\nInspired by Eiichiro Oda's One Piece",
-				"github.com/wornjsnet/...",
+				"Developed by: _jack1_\nA fan-made mod of Shattered Pixel Dungeon\nInspired by Eiichiro Oda's One Piece",
+				"GitHub",
 				"https://github.com/wornjsnet/onepiece_pixel_dungeon");
 		oppd.setRect((w - fullWidth)/2f, insets.top + 6, fullWidth, 0);
 		content.add(oppd);
