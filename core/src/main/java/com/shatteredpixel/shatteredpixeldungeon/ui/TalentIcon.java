@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.HDIcons;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 
@@ -37,6 +38,14 @@ public class TalentIcon extends Image {
 
 	public TalentIcon(int icon){
 		super( Assets.Interfaces.TALENT_ICONS );
+
+		if (HDIcons.hasTalent(icon)){
+			//high resolution (32x32) icon drawn at half scale, see HDIcons
+			texture( HDIcons.talentTexture() );
+			frame( HDIcons.talentFrame(icon) );
+			scale.set( HDIcons.SCALE );
+			return;
+		}
 
 		if (film == null) film = new TextureFilm(texture, SIZE, SIZE);
 

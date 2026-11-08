@@ -129,6 +129,9 @@ public class ItemSprite extends MovieClip {
 	@Override
 	public void copy(Image other) {
 		super.copy(other);
+		if (other instanceof ItemSprite) {
+			hd = ((ItemSprite) other).hd;
+		}
 
 		if (other instanceof ItemSprite && ((ItemSprite) other).glowing != null){
 			glow(((ItemSprite) other).glowing);
@@ -246,10 +249,29 @@ public class ItemSprite extends MovieClip {
 		return this;
 	}
 
-	public void frame( int image ){
-		frame( ItemSpriteSheet.film.get( image ));
+	//true while showing a high resolution (32x32, half scale) icon, see HDIcons
+	private boolean hd = false;
 
-		float height = ItemSpriteSheet.film.height( image );
+	private void setHD( boolean value ){
+		if (hd == value) return;
+		hd = value;
+		texture( hd ? HDIcons.itemTexture() : Assets.Sprites.ITEMS );
+		float f = hd ? HDIcons.SCALE : 1f / HDIcons.SCALE;
+		//scale may be shared with copied sprites, so replace it rather than modifying it
+		scale = new PointF( scale.x * f, scale.y * f );
+	}
+
+	public void frame( int image ){
+		setHD( HDIcons.hasItem( image ) );
+
+		float height;
+		if (hd) {
+			frame( HDIcons.itemFrame( image ) );
+			height = HDIcons.itemHeight( image );
+		} else {
+			frame( ItemSpriteSheet.film.get( image ) );
+			height = ItemSpriteSheet.film.height( image );
+		}
 		//adds extra raise to very short items, so they are visible
 		if (height < 8f){
 			perspectiveRaise =  (5 + 8 - height) / 16f;

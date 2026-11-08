@@ -96,6 +96,7 @@ public class Assets {
 		public static final String BUFFS_LARGE      = "interfaces/large_buffs.png";
 
 		public static final String TALENT_ICONS     = "interfaces/talent_icons.png";
+		public static final String LUFFY_TALENTS_HD = "interfaces/luffy_talents_hd.png";
 		public static final String TALENT_BUTTON    = "interfaces/talent_button.png";
 
 		public static final String HERO_ICONS       = "interfaces/hero_icons.png";
@@ -273,6 +274,7 @@ public class Assets {
 
 		public static final String WARRIOR  = "sprites/warrior.png";
 		public static final String LUFFY    = "sprites/luffy.png";
+		public static final String LUFFY_ITEMS_HD = "sprites/luffy_items_hd.png";
 		public static final String MAGE     = "sprites/mage.png";
 		public static final String ROGUE    = "sprites/rogue.png";
 		public static final String HUNTRESS = "sprites/huntress.png";
