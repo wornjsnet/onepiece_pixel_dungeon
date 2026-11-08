@@ -77,7 +77,7 @@ public class WndHeroInfo extends WndTabbed {
 				tabIcon = new ItemSprite(ItemSpriteSheet.ARTIFACT_TOME, null);
 				break;
 			case LUFFY:
-				tabIcon = new ItemSprite(ItemSpriteSheet.GLOVES, null);
+				tabIcon = new ItemSprite(ItemSpriteSheet.RUBBER_FIST, null);
 				break;
 		}
 
@@ -211,7 +211,7 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case LUFFY:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.GLOVES),
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.RUBBER_FIST),
 							new ItemSprite(ItemSpriteSheet.WAND_LIGHTNING),
 							new ItemSprite(ItemSpriteSheet.MEAT),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};

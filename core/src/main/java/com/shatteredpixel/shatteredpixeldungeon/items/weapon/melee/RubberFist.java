@@ -28,8 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.luffy.Luffy;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Chains;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
+import com.shatteredpixel.shatteredpixeldungeon.effects.RubberArm;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -61,7 +60,7 @@ public class RubberFist extends MeleeWeapon {
 	public static final int PISTOL_RANGE = 3;
 
 	{
-		image = ItemSpriteSheet.GLOVES;
+		image = ItemSpriteSheet.RUBBER_FIST;
 		hitSound = Assets.Sounds.HIT_CRUSH;
 		hitSoundPitch = 1.1f;
 
@@ -243,7 +242,7 @@ public class RubberFist extends MeleeWeapon {
 		hero.sprite.showStatus(CharSprite.NEUTRAL, Messages.get(this, "pistol_shout"));
 		Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
 
-		hero.sprite.parent.add(new Chains(hero.sprite.center(), enemy.sprite.center(), Effects.Type.CHAIN, new Callback() {
+		hero.sprite.parent.add(new RubberArm(hero.sprite.center(), enemy.sprite.center(), new Callback() {
 			@Override
 			public void call() {
 				Charger charger = Buff.affect(hero, Charger.class);

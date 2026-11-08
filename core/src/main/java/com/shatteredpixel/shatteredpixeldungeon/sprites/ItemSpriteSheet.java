@@ -395,7 +395,12 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_CLERIC,    13, 14);
 	}
 
-	                                                                                    //16 free slots
+	//One Piece Pixel Dungeon: Luffy's items (drawn by tools/luffy_art.py)
+	private static final int LUFFY_ITEMS    =                               xy(1, 13);  //16 slots
+	public static final int RUBBER_FIST     = LUFFY_ITEMS+0;
+	static{
+		assignItemRect(RUBBER_FIST,     14, 13);
+	}
 
 	private static final int WANDS              =                           xy(1, 14);  //16 slots
 	public static final int WAND_MAGIC_MISSILE  = WANDS+0;

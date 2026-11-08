@@ -480,7 +480,7 @@ public enum Icons {
 			case CLERIC:
 				return new ItemSprite(ItemSpriteSheet.ARTIFACT_TOME);
 			case LUFFY:
-				return new ItemSprite(ItemSpriteSheet.GLOVES);
+				return new ItemSprite(ItemSpriteSheet.RUBBER_FIST);
 			default:
 				return null;
 		}

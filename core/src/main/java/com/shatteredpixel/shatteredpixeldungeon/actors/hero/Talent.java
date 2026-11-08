@@ -197,8 +197,8 @@ public enum Talent {
 	//Power of Many T4
 	BEAMING_RAY(183, 4), LIFE_LINK(184, 4), STASIS(185, 4),
 
-	//Luffy T1 (icons are placeholders until Luffy's talent art exists)
-	BIG_EATER(0), PIRATES_SENSES(1), CAPTAINS_GRIT(3), CAPTAINS_TOUGHNESS(4),
+	//Luffy T1 (Luffy's talent icons start at 192, drawn by tools/luffy_art.py)
+	BIG_EATER(192), PIRATES_SENSES(193), CAPTAINS_GRIT(194), CAPTAINS_TOUGHNESS(195),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
